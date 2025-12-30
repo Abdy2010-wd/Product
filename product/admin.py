@@ -1,7 +1,25 @@
 from django.contrib import admin
-from .models import Product, Category, Review
+from .models import Category, Product, Review
 
 
-admin.site.register(Product)
-admin.site.register(Category)
-admin.site.register(Review)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'price', 'category')
+    list_filter = ('category',)
+    search_fields = ('title',)
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'stars', 'short_text')
+    list_filter = ('stars',)
+    search_fields = ('text',)
+
+    def short_text(self, obj):
+        return obj.text[:40]
+
