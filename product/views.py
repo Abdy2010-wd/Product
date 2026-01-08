@@ -8,23 +8,24 @@ from .serializers import (
     ReviewSerializer
 )
 
-class CategoryListView(generics.ListAPIView):
+class CategoryListCreateView(generics.ListCreateAPIView):
     queryset = Category.objects.annotate(
         products_count=Count('products')
     )
     serializer_class = CategorySerializer
 
 
-class CategoryDetailView(generics.RetrieveAPIView):
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-class ProductListView(generics.ListAPIView):
+
+class ProductListCreateView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
-class ProductDetailView(generics.RetrieveAPIView):
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -35,13 +36,15 @@ class ProductWithReviewsView(generics.ListAPIView):
     )
     serializer_class = ProductWithReviewsSerializer
 
-class ReviewListView(generics.ListAPIView):
+
+class ReviewListCreateView(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
 
-class ReviewDetailView(generics.RetrieveAPIView):
+class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
 
 
