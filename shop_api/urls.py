@@ -9,6 +9,7 @@ from product.views import (
     ReviewListCreateView,
     ReviewDetailView,
 )
+from .import swagger
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,6 +21,10 @@ urlpatterns = [
     path('api/v1/reviews/', ReviewListCreateView.as_view()),
     path('api/v1/reviews/<int:pk>/', ReviewDetailView.as_view()),
     path("api/v1/users/", include("users.urls")),
+    path('api/v1/posts/', include('vlog.urls')),
+   
 ]
+
+urlpatterns += swagger.urlpatterns
 
 

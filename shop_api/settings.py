@@ -1,14 +1,33 @@
+import os
 from pathlib import Path
+import sys
+import dotenv
+
+
+if __name__ == "__main__":
+    dotenv.read_dotenv()
+
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
+# Quick-start development settings - CategorySerializerunsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-byj+ypgou=^4=znkt!)k8rxeb66if$*2yw#r%&u*on4=jcvk)u'
+SECRET_KEY = 'django-insecure-9x!@#a8f9a1d0s8f7asd8f7as8df7a'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -28,8 +47,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'product',
     'users',
-    'rest_framework.authtoken',
-    
+    'rest_framework.authtoken',  
+    'drf_yasg',
+    'vlog',
 ]
 
 MIDDLEWARE = [
@@ -80,10 +100,16 @@ WSGI_APPLICATION = 'shop_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT')
     }
 }
+
+
 
 
 # Password validation

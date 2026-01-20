@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import generics
 from django.db.models import Avg, Count
 
 from .models import Category, Product, Review
@@ -9,29 +9,42 @@ from .serializers import (
     ReviewSerializer
 )
 
-
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryListCreateView(generics.ListCreateAPIView):
     queryset = Category.objects.annotate(
         products_count=Count('products')
     )
     serializer_class = CategorySerializer
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class ProductListCreateView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
-class ProductWithReviewsViewSet(viewsets.ReadOnlyModelViewSet):
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductWithReviewsView(generics.ListAPIView):
     queryset = Product.objects.annotate(
         rating=Avg('reviews__stars')
     )
     serializer_class = ProductWithReviewsSerializer
 
-
-class ReviewViewSet(viewsets.ModelViewSet):
+class ReviewListCreateView(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+
+class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
 
 
 
