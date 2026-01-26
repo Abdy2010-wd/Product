@@ -1,28 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from product.views import (
-    CategoryListCreateView,
-    CategoryDetailView,
-    ProductListCreateView,
-    ProductDetailView,
-    ProductWithReviewsView,
-    ReviewListCreateView,
-    ReviewDetailView,
-)
-from .import swagger
+from . import swagger
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/categories/', CategoryListCreateView.as_view()),
-    path('api/v1/categories/<int:pk>/', CategoryDetailView.as_view()),
-    path('api/v1/products/', ProductListCreateView.as_view()),
-    path('api/v1/products/<int:pk>/', ProductDetailView.as_view()),
-    path('api/v1/products/reviews/', ProductWithReviewsView.as_view()),
-    path('api/v1/reviews/', ReviewListCreateView.as_view()),
-    path('api/v1/reviews/<int:pk>/', ReviewDetailView.as_view()),
-    path("api/v1/users/", include("users.urls")),
-    path('api/v1/posts/', include('vlog.urls')),
-   
+    path('api/v1/products/', include('product.urls')),
+    path('api/v1/users/', include('users.urls')),
 ]
 
 urlpatterns += swagger.urlpatterns

@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import RegisterView, ConfirmUserView
-from rest_framework.authtoken.views import obtain_auth_token
+from users.views import RegistrationAPIView, AuthorizationAPIView, ConfirmUserAPIView
 
 urlpatterns = [
-    path("register/", RegisterView.as_view()),
-    path("confirm/", ConfirmUserView.as_view()),
-    path("login/", obtain_auth_token),
+    path('registration/', RegistrationAPIView.as_view()),
+    path('authorization/', AuthorizationAPIView.as_view()),
+    path('confirm/', ConfirmUserAPIView.as_view())
 ]
