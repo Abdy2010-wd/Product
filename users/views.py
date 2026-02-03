@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import CreateAPIView
 
 from .serializers import (
+    CustomTokenObtainPairSerializer,
     RegisterValidateSerializer,
     AuthValidateSerializer,
     ConfirmationSerializer
@@ -16,11 +17,15 @@ from .models import ConfirmationCode
 import random
 import string
 from users.models import CustomUser
+from rest_framework_simplejwt.views import TokenObtainPairView
 
+class CustomObtainPairView(TokenObtainPairView):
+    serializers_class = CustomTokenObtainPairSerializer
 
 class AuthorizationAPIView(CreateAPIView):
     serializer_class = AuthValidateSerializer
     
+
     def post(self, request):
         serializer = AuthValidateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import sys
 import dotenv
-
+from datetime import timedelta
 
 if __name__ == "__main__":
     dotenv.read_dotenv()
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'product',
     'users',
     'rest_framework.authtoken',  
@@ -94,7 +95,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'shop_api.wsgi.application'
 
-
+REST_FREMEWORK = {
+    'DEFAULT_AUTHENTIFICATION_CALSSES':[
+        'rest_framework.authentification.TokenAuthenticated'
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication
+    ]
+}
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
@@ -153,3 +160,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'AuthToken': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        },
+        'SimpleJWT': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
+
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=35),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "UPDATE_LAST_LOGIN": True,
+}
+# settings.py
+
+SIMPLE_JWT = {
+    "TOKEN_OBTAIN_SERIALIZER": "users.serializers.MyTokenObtainPairSerializer",
+}
